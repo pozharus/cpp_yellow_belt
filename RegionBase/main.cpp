@@ -2,7 +2,8 @@
 #include <string>
 #include <map>
 #include <vector>
-#include <tuple>
+#include <set>
+#include <algorithm>
 using namespace std;
 
 enum class Lang {
@@ -16,28 +17,90 @@ struct Region {
     int64_t population;
 };
 
-auto GetTuple(const Region& region) {
-    tie(region.std_name, region.parent_std_name,region.names,region.population);
-}
-
 int FindMaxRepetitionCount(const vector<Region>& regions) {
-    for(size_t i = 0; i < regions.size(); i++) {
+    if(regions.size() == 0) {
+        return 0;
+    } else {
+        set<int>numbers;
 
+
+        for(auto& region : regions) {
+            numbers.insert(count(cbegin(regions),cend(regions),region));
+        }
+
+        int num = *numbers.rbegin();
+        numbers.clear();
+        return num;
     }
 }
 
-bool operator == (Region& lhs, Region& rhs) {
-    if(lhs.std_name != rhs.std_name) {
-        return false;
-    }
-    if(lhs.parent_std_name != rhs.parent_std_name) {
-        return false;
-    }
+auto GetTuple(const Region& region) {
+    return tie(region.std_name, region.parent_std_name, region.names,region.population);
+}
 
-    return lhs.population == rhs.population; //Тогда сравниваем самое крайнее поле
+bool operator == (const Region& lhs_region, const Region& rhs_region) {
+    return GetTuple(lhs_region) == GetTuple(rhs_region);
 }
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+    cout << FindMaxRepetitionCount({
+   {
+           "Moscow",
+           "Russia",
+           {{Lang::DE, "Moskau"}, {Lang::FR, "Moscou"}, {Lang::IT, "Mosca"}},
+           89
+   }, {
+           "Russia",
+           "Eurasia",
+           {{Lang::DE, "Russland"}, {Lang::FR, "Russie"}, {Lang::IT, "Russia"}},
+           89
+   }, {
+           "Moscow",
+           "Russia",
+           {{Lang::DE, "Moskau"}, {Lang::FR, "Moscou"}, {Lang::IT, "Mosca"}},
+           89
+   }, {
+           "Moscow",
+           "Russia",
+           {{Lang::DE, "Moskau"}, {Lang::FR, "Moscou"}, {Lang::IT, "Mosca"}},
+           89
+   }, {
+           "Russia",
+           "Eurasia",
+           {{Lang::DE, "Russland"}, {Lang::FR, "Russie"}, {Lang::IT, "Russia"}},
+           89
+   },
+   }) << endl;
+
+    cout << FindMaxRepetitionCount({
+   {
+           "Moscow",
+           "Russia",
+           {{Lang::DE, "Moskau"}, {Lang::FR, "Moscou"}, {Lang::IT, "Mosca"}},
+           89
+   }, {
+           "Russia",
+           "Eurasia",
+           {{Lang::DE, "Russland"}, {Lang::FR, "Russie"}, {Lang::IT, "Russia"}},
+           89
+   }, {
+           "Moscow",
+           "Russia",
+           {{Lang::DE, "Moskau"}, {Lang::FR, "Moscou deux"}, {Lang::IT, "Mosca"}},
+           89
+   }, {
+           "Moscow",
+           "Toulouse",
+           {{Lang::DE, "Moskau"}, {Lang::FR, "Moscou"}, {Lang::IT, "Mosca"}},
+           89
+   }, {
+           "Moscow",
+           "Russia",
+           {{Lang::DE, "Moskau"}, {Lang::FR, "Moscou"}, {Lang::IT, "Mosca"}},
+           31
+   },
+}) << endl;
+
     return 0;
 }
+
