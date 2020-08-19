@@ -3,7 +3,6 @@
 #include <map>
 #include <vector>
 #include <set>
-#include <algorithm>
 using namespace std;
 
 enum class Lang {
@@ -21,16 +20,20 @@ int FindMaxRepetitionCount(const vector<Region>& regions) {
     if(regions.size() == 0) {
         return 0;
     } else {
-        set<int>numbers;
-
-
+        map<Region, int> regions_uniq;
         for(auto& region : regions) {
-            numbers.insert(count(cbegin(regions),cend(regions),region));
+            if(regions_uniq.count(region)) {
+                regions_uniq.at(region)++;
+            } else {
+                regions_uniq[region] = 1;
+            }
         }
 
-        int num = *numbers.rbegin();
-        numbers.clear();
-        return num;
+        set<int> max_value;
+            for(auto& region : regions_uniq) {
+                max_value.insert(region.second);
+            }
+        return *max_value.rbegin();
     }
 }
 
@@ -40,6 +43,10 @@ auto GetTuple(const Region& region) {
 
 bool operator == (const Region& lhs_region, const Region& rhs_region) {
     return GetTuple(lhs_region) == GetTuple(rhs_region);
+}
+
+bool operator < (const Region& lhs_region, const Region& rhs_region) {
+    return GetTuple(lhs_region) < GetTuple(rhs_region);
 }
 
 int main() {
@@ -100,7 +107,6 @@ int main() {
            31
    },
 }) << endl;
-
     return 0;
 }
 
