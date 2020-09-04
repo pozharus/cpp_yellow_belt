@@ -37,8 +37,8 @@ public:
         if(persons_tasks.count(person)) {
             TasksInfo buffer;
             buffer = persons_tasks.find(person)->second;
-            int buff_count = task_count;
 
+            /*
             for(auto& item : buffer) {
                 if(task_count > 0) {
                     while(item.second > 0 and task_count > 0) {
@@ -47,13 +47,8 @@ public:
                         }
                     continue;
                 }
-
-                while(buff_count > 0) {
-                    item.second++;
-                    buff_count--;
-                    break;
-                }
             }
+             */
 
             cout << buffer[TaskStatus::NEW] << " new tasks" <<
              ", " << buffer[TaskStatus::IN_PROGRESS] << " tasks in progress" <<
