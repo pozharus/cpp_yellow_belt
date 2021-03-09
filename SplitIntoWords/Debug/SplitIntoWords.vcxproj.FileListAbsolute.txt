@@ -1,0 +1,2 @@
+P:\Cpp\cpp_yellow_belt\SplitIntoWords\Debug\SplitIntoWords.exe
+P:\Cpp\cpp_yellow_belt\SplitIntoWords\Debug\SplitIntoWords.pdb

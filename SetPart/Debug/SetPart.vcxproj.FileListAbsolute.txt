@@ -1,0 +1,2 @@
+P:\Cpp\cpp_yellow_belt\SetPart\Debug\SetPart.exe
+P:\Cpp\cpp_yellow_belt\SetPart\Debug\SetPart.pdb
